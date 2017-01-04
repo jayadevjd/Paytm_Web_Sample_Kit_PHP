@@ -156,8 +156,8 @@ function getTxnStatus($requestParamList) {
 }
 
 function initiateTxnRefund($requestParamList) {
-	$CHECKSUM = getChecksumFromArray($requestParamList,PAYTM_MERCHANT_KEY,0);
-	$requestParamList["CHECKSUM"] = $CHECKSUM;
+	$CHECKSUM = getChecksumFromArray($requestParamList,PAYTM_MERCHANT_KEY);
+	$requestParamList["CHECKSUM"] = urlencode($CHECKSUM);
 	return callAPI(PAYTM_REFUND_URL, $requestParamList);
 }
 
@@ -165,7 +165,7 @@ function callAPI($apiURL, $requestParamList) {
 	$jsonResponse = "";
 	$responseParamList = array();
 	$JsonData =json_encode($requestParamList);
-	$postData = 'JsonData='.urlencode($JsonData);
+	$postData = 'JsonData='.$JsonData;
 	$ch = curl_init($apiURL);
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);                                                                  
